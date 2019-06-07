@@ -1,0 +1,194 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
+-- -----------------------------------------------------
+-- Schema Computsal
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema Computsal
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `Computsal` DEFAULT CHARACTER SET utf8 ;
+USE `Computsal` ;
+
+-- -----------------------------------------------------
+-- Table `Computsal`.`team`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Computsal`.`team` (
+  `name` VARCHAR(255) NOT NULL,
+  `photo` VARCHAR(100) NULL,
+  `group_number` INT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC),
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Computsal`.`player`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Computsal`.`player` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NULL,
+  `fk_player_team` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`, `fk_player_team`),
+  INDEX `fk_player_team_idx` (`fk_player_team` ASC),
+  CONSTRAINT `fk_player_team`
+    FOREIGN KEY (`fk_player_team`)
+    REFERENCES `Computsal`.`team` (`name`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Computsal`.`previous_match`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Computsal`.`previous_match` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `fk_match_team1` VARCHAR(255) NOT NULL,
+  `fk_match_team2` VARCHAR(255) NOT NULL,
+  `match_type` INT NOT NULL,
+  `phase` INT NOT NULL,
+  PRIMARY KEY (`id`, `fk_match_team1`, `fk_match_team2`),
+  INDEX `fk_match_team1_idx` (`fk_match_team1` ASC),
+  INDEX `fk_match_team2_idx` (`fk_match_team2` ASC),
+  CONSTRAINT `fk_match_team1`
+    FOREIGN KEY (`fk_match_team1`)
+    REFERENCES `Computsal`.`team` (`name`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_match_team2`
+    FOREIGN KEY (`fk_match_team2`)
+    REFERENCES `Computsal`.`team` (`name`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Computsal`.`player_match`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Computsal`.`player_match` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `fk_score_player` INT NOT NULL,
+  `fk_score_match` INT NOT NULL,
+  `quantity` INT NOT NULL,
+  `yellow` INT NOT NULL,
+  `red` INT NOT NULL,
+  PRIMARY KEY (`id`, `fk_score_player`, `fk_score_match`),
+  INDEX `fk_score_match_idx` (`fk_score_match` ASC),
+  CONSTRAINT `fk_score_player`
+    FOREIGN KEY (`fk_score_player`)
+    REFERENCES `Computsal`.`player` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_score_match`
+    FOREIGN KEY (`fk_score_match`)
+    REFERENCES `Computsal`.`previous_match` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Computsal`.`time`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Computsal`.`time` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `time` TIME(0) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `time_UNIQUE` (`time` ASC))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Computsal`.`schedule`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Computsal`.`schedule` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `fk_schedule_team` VARCHAR(255) NOT NULL,
+  `fk_schedule_time` INT NOT NULL,
+  PRIMARY KEY (`id`, `fk_schedule_team`, `fk_schedule_time`),
+  INDEX `fk_schedule_team_idx` (`fk_schedule_team` ASC),
+  INDEX `time_idx` (`fk_schedule_time` ASC),
+  CONSTRAINT `fk_schedule_team`
+    FOREIGN KEY (`fk_schedule_team`)
+    REFERENCES `Computsal`.`team` (`name`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `time`
+    FOREIGN KEY (`fk_schedule_time`)
+    REFERENCES `Computsal`.`time` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Computsal`.`next_match`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Computsal`.`next_match` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `fk_next_team1` VARCHAR(255) NOT NULL,
+  `fk_next_team2` VARCHAR(255) NOT NULL,
+  `time` INT NOT NULL,
+  `type` INT NOT NULL,
+  PRIMARY KEY (`id`, `fk_next_team1`, `fk_next_team2`),
+  INDEX `fk_next_match_1_idx` (`fk_next_team1` ASC),
+  INDEX `fk_next_match_2_idx` (`fk_next_team2` ASC),
+  CONSTRAINT `fk_next_team1`
+    FOREIGN KEY (`fk_next_team1`)
+    REFERENCES `Computsal`.`team` (`name`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_next_team2`
+    FOREIGN KEY (`fk_next_team2`)
+    REFERENCES `Computsal`.`team` (`name`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Computsal`.`captain`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Computsal`.`captain` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `fk_captain_team` VARCHAR(255) NOT NULL,
+  `fk_captain_player` INT NOT NULL,
+  `user_email` VARCHAR(60) NOT NULL,
+  PRIMARY KEY (`id`, `fk_captain_team`, `fk_captain_player`),
+  INDEX `fk_captain_player_idx` (`fk_captain_player` ASC),
+  INDEX `fk_captain_team_idx` (`fk_captain_team` ASC),
+  CONSTRAINT `fk_captain_player`
+    FOREIGN KEY (`fk_captain_player`)
+    REFERENCES `Computsal`.`player` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_captain_team`
+    FOREIGN KEY (`fk_captain_team`)
+    REFERENCES `Computsal`.`team` (`name`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Computsal`.`elimination_match`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Computsal`.`elimination_match` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `team1` VARCHAR(45) NOT NULL,
+  `team2` VARCHAR(45) NOT NULL,
+  `type` INT NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
