@@ -1,0 +1,6 @@
+[submodule "API"]
+	path = API
+	url = https://github.com/AndreBtt/Computsal-API
+[submodule "Web-server"]
+	path = Web-server
+	url = https://github.com/AndreBtt/Computsal-web
