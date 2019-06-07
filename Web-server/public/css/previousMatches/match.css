@@ -1,0 +1,51 @@
+.ranking {
+    border-bottom: 1px solid #DDD;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.ranking img {
+    width: 15px;
+    height: 15px;
+    margin-bottom: 3px;
+}
+
+.sec-color {
+    color: #43b699;
+}
+
+.group {
+    margin-top: 6%;
+}
+
+.ranking {
+    font-size: 15px;
+}
+
+.team {
+    font-size: 30px;
+}
+
+.smallX {
+    font-size: 15px;
+}
+
+@media(min-width:768px) {
+    .ranking {
+        font-size: 30px;
+    }
+
+    .team {
+        font-size: 50px;
+    }
+    
+    .smallX {
+        font-size: 25px;
+    }
+
+    .ranking img {
+        width: 30px;
+        height: 30px;
+    }
+}

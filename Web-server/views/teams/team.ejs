@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Computsal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/animate.min.css" />
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/teams/team.css" />
+  </head>
+  <body>
+    <nav id="topNav" class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="/"> Computsal</a>
+            </div>
+            <div class="navbar-collapse collapse" id="bs-navbar">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a class="page-scroll" data-toggle="modal" href="#login">
+                            <% if (logged) { %> 
+                                configurações 
+                            <% } else { %>
+                                Login
+                            <% } %>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <section id="two">
+        <div class="container-fluid bg-dark">
+            <div class="row">
+                <div class="col-xs-3 col-md-3 col-lg-3 vcenter text-right">
+                    <img class="logo" src="<%= team.photo %>">
+                </div><div class="col-xs-9 col-md-9 col-lg-9 vcenter">
+                    <span class="logo-name"><%= team.name %></span >
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="col-lg-6 col-md-6 col-xs-6">
+                        <h2 class="option-size"><span onclick="displayPlayers()" class="click">Jogadores</span></h2>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-xs-6">
+                        <h2 class="option-size"><span onclick="displayNextMatch()" class="click">Próxima partida</span></h2>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-xs-6">
+                        <h2 class="option-size"><span onclick="displayPreviousMatches()" class="click">Partidas passadas</span></h2>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-xs-6">
+                        <h2 class="option-size"><span onclick="displayInformation()" class="click">Informações</span></h2>
+                    </div>
+                </div>
+            </div>
+
+            <div id="players" class="item">
+                <div class="ranking-header"> 
+                    <div class="col-lg-6 col-md-6 col-xs-6 text-center">Nome</div> 
+                    <div class="col-lg-2 col-md-2 col-xs-2">
+                        <img src="/img/icons/ball.png">
+                    </div> 
+                    <div class="col-lg-2 col-md-2 col-xs-2">
+                        <img src="/img/icons/yellow-card.png">
+                    </div> 
+                    <div class="col-lg-2 col-md-2 col-xs-2">
+                        <img src="/img/icons/red-card.png">
+                    </div> 
+                </div>
+
+                <% for(var i = 0; i < team.players.length; i++) { %>
+                    <% let player = team.players[i] %>
+                    <div class="ranking">
+                        <div class="col-lg-6 col-md-6 col-xs-6 text-center"><%= player.name %></div> 
+                        <div class="col-lg-2 col-md-2 col-xs-2"><%= player.score %></div> 
+                        <div class="col-lg-2 col-md-2 col-xs-2"><%= player.yellowCard %></div> 
+                        <div class="col-lg-2 col-md-2 col-xs-2"><%= player.redCard %></div> 
+                    </div>
+                <% } %>
+
+            </div>
+            
+            <div id="previousMatches" class="container item">
+                <% if(team.previous_matches.length === 0) { %>
+                    <div class="col-lg-12 col-md-12 col-xs-12">
+                        <span class="tempo">Sem partidas jogadas</span>
+                    </div>
+                <% } else { %>
+
+                    <% let round = 0 %>
+                    <% let map = new Map() %>
+                    <% map.set(1, "FINAL") %>
+                    <% map.set(2, "SEMI FINAL") %>
+                    <% map.set(4, "QUARTAS DE FINAL") %>
+                    <% map.set(8, "OITAVAS DE FINAL") %>
+                    <% for (var i = 0; i < team.previous_matches.length; i++) { %>
+                        <% match = team.previous_matches[i] %>
+
+                        <!-- Display correct round match -->
+                        <% if (match.type !== 0) { %>
+                            <!-- elimination phase -->
+                            <div class="row round">
+                                <div class="col-lg-12 text-center">
+                                    <h2 class="round-size"><%= map.get(match.type) %></h2>
+                                </div>
+                            </div>
+                        <% } else if (round !== match.phase) { %>
+                            <!-- group phase -->
+                            <div class="row round">
+                                <div class="col-lg-12 text-center">
+                                    <h2 class="round-size"><%= match.phase %>&ordf; RODADA</h2>
+                                </div>
+                            </div>
+                            <% round = match.phase %>
+                        <% } %>
+
+                        <div class="ranking">
+                            <div class="jogador">
+                                <div class="col-lg-5 col-md-5 col-xs-6">
+                                    <span class="team"><%= match.team1 %></span>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-xs-6 text-center">
+                                    <h4 class="team-score"><%= match.score1 %> <span class="smallX">x</span> <%= match.score2 %></h4>
+                                    <a href="/jogosPassados/<%= match.id %>"><h6 class="details">Detalhes do jogo</h6></a>
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-xs-6 text-right">
+                                        <span class="team"><%= match.team2 %></span>
+                                    </div> 
+                            </div>
+                        </div>
+
+                    <% } %>
+                <% } %>
+
+            </div>
+
+            <div id="nextMatch" class="container item">
+                <!-- no next match available -->
+                <% if(team.next_match.name.length === 0) { %>
+                    <div class="col-lg-12 col-md-12 col-xs-12">
+                        <span class="tempo">Partida ainda não definida</span>
+                    </div>
+                <% } else { %>
+                    <div class="ranking">
+                        <div class="jogador">
+                            
+                                <div class="col-lg-5 col-md-5 col-xs-6">
+                                    <span class="time"><%= team.name %></span>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-xs-6 text-center">
+                                    <span class="tempo"><%= team.next_match.time.substring(0, team.next_match.time.length - 3) %></span>
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-xs-6 text-right">
+                                    <span class="time"><%= team.next_match.name %></span>
+                                </div> 
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+
+            <div id="information" class="container item">
+
+                <div class="row info-margin">
+                    <div class="col-lg-12 col-md-12 col-xs-12 text-center">
+                        <h3 class="sec-color"><%= team.captain %></h3>
+                        <span>Capitão</span>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-xs-4 text-center info-margin">
+                    <h2><%= team.win %></h2>
+                    <span>Vitorias</span>
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-xs-4 text-center info-margin">
+                    <h2><%= team.draw %></h2>
+                    <span>Empates</span>
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-xs-4 text-center info-margin">
+                    <h2><%= team.lose %></h2>
+                    <span>Derrotas</span>
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-xs-4 text-center info-margin">
+                    <h2><%= team.goals_pro %></h2>
+                    <span>Gols a favor</span>
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-xs-4 text-center info-margin">
+                    <h2><%= team.goals_against %></h2>
+                    <span>Gols contra</span>
+                </div>
+                
+                <div class="col-lg-4 col-md-4 col-xs-4 text-center info-margin">
+                    <% if(team.group == -1) { %>
+                        <h2>-</h2>
+                    <% } else {%>
+                        <h2><%= team.group %></h2>
+                    <% }%>
+                    <span>Grupo</span>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <% if(logged) { %>
+        <div id="login" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <% if(captain) { %>
+                        <a href="/atualizarTime"><h2 class="text-center">Atualizar meu time</h2></a>
+                        <a href="/agendarHorario"><h2 class="text-center">Agendar horario</h2></a>
+                    <% } else { %>
+                        <a href="/criarTime"><h2 class="text-center">Criar meu time</h2></a>
+                    <% } %>
+                    <% if(admin) { %>
+                        <a href="/admin"><h2 class="text-center">Configurar campenato</h2></a>
+                    <% } %>
+                    <h2 onclick="logOutAccount()" style="color: #ce2029" class="text-center clickRed">Sair</h2>
+                </div>
+            </div>
+            </div>
+        </div>
+    <% } else { %>
+        <div id="login" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h2 class="text-center">Entrar / Criar conta</h2>
+                        <form class="contact-form row">
+                            <div class="col-md-6">
+                                <label></label>
+                                <input id="emailAccount" type="text" class="form-control" placeholder="Email">
+                            </div>
+                            <div class="col-md-6">
+                                <label></label>
+                                <input id="passwordAccount" type="password" class="form-control" placeholder="Senha">
+                            </div>
+                            <div id="warningTextAccountDisplay" style="display: none;" class="col-md-12">
+                                <label></label>
+                                <h4 style="color: #ff0000;" id="warningTextAccount"></h4>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-6">
+                                <label></label>
+                                <h2 onclick="createAccount()" class="text-center clickGreen">Criar</h2>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-xs-6">
+                                <label></label>
+                                <h2 onclick="logInAccount()" class="text-center clickGreen">Entrar</h2>
+                            </div>
+                            <div class="col-md-12">
+                                <label></label>
+                                <h4 onclick="forgetPassword()" class="text-center clickGreen">Esqueci minha senha</h4>
+                            </div>
+                        </form>
+                        <form id="spinnerLogin" style="display: none;" class="contact-form row">
+                            <div class="text-center">
+                                <label></label>
+                                <div class="lds-dual-ring"></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <% } %>
+    <!--scripts loaded here -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.easing.min.js"></script>
+    <script src="/js/home/wow.js"></script>
+    <script src="/js/home/index.js"></script>
+    <script src="/js/teams/team.js"></script>
+  </body>
+</html>  
