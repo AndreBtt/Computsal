@@ -44,12 +44,9 @@
         </div>
         <div class="container">
 
-            <% let seconds = 0 %>
 
             <% for (var i = 0; i < teams.length; i++) { %>
-                <% if(seconds < 5) seconds++ %>
-                <% let delay = "." + seconds + "s" %>
-                <div id="<%= teams[i].id %>" class="ranking wow fadeIn" <%if(i%2 === 1) { %> style = "background-color: #222" <% } %> data-wow-delay="<%=delay%>">
+                <div id="<%= teams[i].id %>" class="ranking" <%if(i%2 === 1) { %> style = "background-color: #222" <% } %> >
                     <div class="jogador">
                         <div class="col-lg-10 col-md-10 col-xs-10">
                             <span class="time"><%= teams[i].name %></span>
