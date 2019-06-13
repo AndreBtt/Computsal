@@ -53,24 +53,21 @@
         <% map.set(2, "SEMI FINAL") %>
         <% map.set(4, "QUARTAS DE FINAL") %>
         <% map.set(8, "OITAVAS DE FINAL") %>
-        <% let seconds = 0 %>
 
         <div class="container">
             <% for (var i = 0; i < matches.length; i++) { %>
-                <% if(seconds < 5) seconds++ %>
-                <% let delay = "." + seconds + "s" %>
 
                 <!-- Display correct round match -->
                 <% if (matches[i].type !== 0) { %>
                     <!-- elimination phase -->
-                    <div class="row round wow fadeIn" data-wow-delay="<%=delay%>">
+                    <div class="row round">
                         <div class="col-lg-12 text-center">
                             <h2 class="round-size"><%= map.get(matches[i].type) %></h2>
                         </div>
                     </div>
                 <% } else if (round !== matches[i].phase) { %>
                     <!-- group phase -->
-                    <div class="row round wow fadeIn" data-wow-delay="<%=delay%>">
+                    <div class="row round">
                         <div class="col-lg-12 text-center">
                             <h2 class="round-size"><%= matches[i].phase %>&ordf; RODADA</h2>
                         </div>
@@ -78,7 +75,7 @@
                     <% round = matches[i].phase %>
                 <% } %>
 
-                <div class="ranking wow fadeIn" data-wow-delay="<%=delay%>">
+                <div class="ranking">
                     <div class="jogador">
                         <div class="col-lg-5 col-md-5 col-xs-6">
                             <span class="team"><%= matches[i].team1 %></span>

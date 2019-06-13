@@ -48,12 +48,8 @@
         </div>
         <div class="container">
 
-            <% let seconds = 0 %>
-
             <% for (var i = 0; i < matches.length; i++) { %>
-                <% if(seconds < 5) seconds++ %>
-                <% let delay = "." + seconds + "s" %>
-                <div class="ranking wow fadeIn" data-wow-delay="<%=delay%>">
+                <div class="ranking">
                     <div class="jogador">
                         <div class="col-lg-5 col-md-5 col-xs-6">
                             <span class="time"><%= matches[i].team1 %></span>

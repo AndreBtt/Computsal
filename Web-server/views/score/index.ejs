@@ -54,13 +54,10 @@
             
             <% let position = 1 %>
             <% let lastScore = -1 %>
-            <% let seconds = 0 %>
 
             <% for (var i = 0; i < scores.length; i++) { %>
-                <% if(seconds < 5) seconds++ %>
-                <% let delay = "." + seconds + "s" %>
                 <% if (scores[i].score === 0) continue%>
-                <div class="ranking wow fadeIn" data-wow-delay="<%=delay%>">
+                <div class="ranking">
                     <% if (scores[i].score !== lastScore) {%>
                         <div class="ranking-item"> <%= position++ %> </div>
                         <% lastScore = scores[i].score %>
