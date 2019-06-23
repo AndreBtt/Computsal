@@ -5,3 +5,11 @@ exports.home = function(req, res) {
         captain : req.captain
     })
 }
+
+exports.autor = function(req, res) {
+    res.render('home/author', {
+        logged : req.logged,
+        admin : req.admin,
+        captain : req.captain
+    })
+}

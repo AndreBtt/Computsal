@@ -21,6 +21,7 @@ router.use('/admin', authMd.isLoggedIn, userMd.AdminAccess, require('./admin'))
 
 /* --- general routes --- */
 router.get('/', authMd.isLoggedIn, controller.home)
+router.get('/autor', authMd.isLoggedIn, controller.autor)
 router.use('/times', authMd.isLoggedIn, require('./teams'))
 router.use('/jogosPassados', authMd.isLoggedIn, require('./previousMatches'))
 router.use('/proximosJogos', authMd.isLoggedIn, require('./nextMatches'))
