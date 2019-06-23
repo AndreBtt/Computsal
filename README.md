@@ -1,6 +1,6 @@
 # Computsal
 
-falar sobre o computsal oq é....
+falar sobre o computsal oq é...
 
 Projeto : explicar como foi divido entre db API e server
 
