@@ -5,7 +5,7 @@ falar sobre o computsal oq é...
 Projeto : explicar como foi divido entre db API e server
 
 <p align="center">
-  <img src="http://imgur.com/hRZwmfi"/>
+  <img src="https://i.imgur.com/hRZwmfi.png"/>
   <br/>
 </p>
 
