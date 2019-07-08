@@ -4,6 +4,11 @@ falar sobre o computsal oq é...
 
 Projeto : explicar como foi divido entre db API e server
 
+<p align="center">
+  <img src="https://imgur.com/hRZwmfi"/>
+  <br/>
+</p>
+
 Executar local : git clone --recurse-submodules
 
 se ja tiver clonado : git pull --recurse-submodules
