@@ -2,12 +2,14 @@
 
 falar sobre o computsal oq é...
 
-Projeto : explicar como foi divido entre db API e server
+## High level design
 
 <p align="center">
   <img src="https://i.imgur.com/hRZwmfi.png"/>
   <br/>
 </p>
+
+Explicar cada modulo do design 
 
 Executar local : git clone --recurse-submodules
 
