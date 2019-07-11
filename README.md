@@ -1,6 +1,12 @@
 # Computsal
 
-falar sobre o computsal oq é...
+Computsal is a famous soccer competition in University of Brasilia organized by computer science academic center.
+
+It happens every semester since 2010 with teams from different courses. 
+
+Computsal was managed using papers until 2019 when I decided to create this app.
+
+Feel free to improve anything you want, the idea of this project is to keep a good platform to organize this amazing competition.
 
 ## High level design
 
