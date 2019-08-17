@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
@@ -81,14 +80,14 @@ func (a *App) Run(addr string) {
 
 func main() {
 	a := App{}
-	// a.Initialize("b19c3c443cc519", "9b263fae", "us-cdbr-iron-east-03.cleardb.net", "heroku_3922f2efcde3158")
-	// a.Initialize("root", "andre1995", "localhost", "Computsal")
-	a.Initialize("andre", "1234", "localhost", "Computsal")
+
+	// local
+	// a.Initialize("root", "1234", "localhost", "Computsal")
+
+	// Amazon RDS
+	a.Initialize("root", "andre1995", "computsal.crito9oissbs.us-east-1.rds.amazonaws.com", "Computsal")
 
 	defer a.DB.Close()
-	port := os.Getenv("PORT") // Heroku provides the port to bind to
-	if port == "" {
-		port = "3000"
-	}
+	port = "3000"
 	a.Run(":" + port)
 }
