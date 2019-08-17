@@ -88,6 +88,6 @@ func main() {
 	a.Initialize("root", "andre1995", "computsal.crito9oissbs.us-east-1.rds.amazonaws.com", "Computsal")
 
 	defer a.DB.Close()
-	port = "3000"
+	port := "3000"
 	a.Run(":" + port)
 }
