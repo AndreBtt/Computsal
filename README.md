@@ -9,11 +9,18 @@ falar sobre o computsal oq é...
   <br/>
 </p>
 
+## Design core components
+
 Explicar cada modulo do design 
+
+
+
 
 Executar local : git clone --recurse-submodules
 
 se ja tiver clonado : git pull --recurse-submodules
+
+
 
 Para modificar a API : 
 
